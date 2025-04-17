@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridManager : MonoBehaviour
+public class LevelLoader : MonoBehaviour
 {
-    public int width;
-    public int height;
     public TextAsset levelText;
     public GameObject wallPrefab, floorPrefab, playerPrefab, enemyPrefab, potionPrefab, chestPrefab, exitPrefab;
     public Transform gridRoot;
+
+    public Dictionary<Vector2Int, GameObject> grid = new Dictionary<Vector2Int,GameObject>();
     
     // Start is called before the first frame update
     void Start()
@@ -20,8 +20,8 @@ public class GridManager : MonoBehaviour
     private void LoadLevel(string level)
     {
         string[] lines = level.Split('\n');
-        height = lines.Length;
-        width = lines[0].Length;
+        int height = lines.Length;
+        int width = lines[0].Length;
 
         for (int y = 0; y < height; ++y) {
             string line = lines[lines.Length - 1 - y];  // Inverted Y so top row == top line
@@ -30,11 +30,13 @@ public class GridManager : MonoBehaviour
                 char c = line[x];
                 Vector3 localPos = new(x, y, 0);
                 Transform parent = gridRoot;
-                // Instantiate(floorPrefab, localPos, Quaternion.identity, parent);
 
                 switch (c)
                 {
-                    case '#': Instantiate(wallPrefab, localPos, Quaternion.identity, parent); break;
+                    case '#': 
+                        Instantiate(wallPrefab, localPos, Quaternion.identity, parent); 
+
+                        break;
                     case '@': Instantiate(playerPrefab, localPos, Quaternion.identity, parent); break;
                     case 'M': Instantiate(enemyPrefab, localPos, Quaternion.identity, parent); break;
                     case 'P': Instantiate(potionPrefab, localPos, Quaternion.identity, parent); break;
@@ -42,6 +44,7 @@ public class GridManager : MonoBehaviour
                     case 'C': Instantiate(chestPrefab, localPos,Quaternion.identity,parent); break;
                     case '.': Instantiate(floorPrefab, localPos, Quaternion.identity, parent); break;
                 }
+
             }
         }
         // center the grid
