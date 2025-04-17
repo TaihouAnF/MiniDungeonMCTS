@@ -30,7 +30,7 @@ public class GridManager : MonoBehaviour
                 char c = line[x];
                 Vector3 localPos = new(x, y, 0);
                 Transform parent = gridRoot;
-                Instantiate(floorPrefab, localPos, Quaternion.identity, parent);
+                // Instantiate(floorPrefab, localPos, Quaternion.identity, parent);
 
                 switch (c)
                 {
@@ -39,6 +39,8 @@ public class GridManager : MonoBehaviour
                     case 'M': Instantiate(enemyPrefab, localPos, Quaternion.identity, parent); break;
                     case 'P': Instantiate(potionPrefab, localPos, Quaternion.identity, parent); break;
                     case 'E': Instantiate(exitPrefab, localPos, Quaternion.identity, parent); break;
+                    case 'C': Instantiate(chestPrefab, localPos,Quaternion.identity,parent); break;
+                    case '.': Instantiate(floorPrefab, localPos, Quaternion.identity, parent); break;
                 }
             }
         }

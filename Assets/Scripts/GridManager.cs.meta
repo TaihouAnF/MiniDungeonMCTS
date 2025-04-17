@@ -3,7 +3,16 @@ guid: 9fe8bcb09d4f7c745a3d27f357e19bca
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - levelText: {instanceID: 0}
+  - wallPrefab: {instanceID: 0}
+  - floorPrefab: {instanceID: 0}
+  - playerPrefab: {instanceID: 0}
+  - enemyPrefab: {fileID: 7104007647076078551, guid: 858dea2e9bad2c840910df5985e2df69, type: 3}
+  - potionPrefab: {instanceID: 0}
+  - chestPrefab: {instanceID: 0}
+  - exitPrefab: {instanceID: 0}
+  - gridRoot: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
