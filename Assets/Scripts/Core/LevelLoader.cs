@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 public class LevelLoader : MonoBehaviour
 {
     public TextAsset levelText;
@@ -10,8 +6,6 @@ public class LevelLoader : MonoBehaviour
     public Transform gridRoot;
     public MapTile [,] map;
     public TileSpriteSet tileSpriteSet;
-
-    public Dictionary<Vector2Int, GameObject> grid = new Dictionary<Vector2Int,GameObject>();
     
     // Start is called before the first frame update
     void Start()
@@ -60,5 +54,10 @@ public class LevelLoader : MonoBehaviour
     private void CenterDungeon(int width, int height)
     {
         gridRoot.position = new Vector3(-width / 2f + 0.5f, -height / 2f + 0.5f);
+    }
+
+    public void UpdateLevel(Actor actor) 
+    {
+
     }
 }
