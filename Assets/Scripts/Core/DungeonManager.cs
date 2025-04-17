@@ -38,4 +38,10 @@ public class DungeonManager : MonoBehaviour // Could make a monosingleton here b
         if (x < 0 || y < 0 || x >= Width || y >= Height) return;
         mp[x, y] = tile;
     }
+
+    public bool isWalkable(Vector2Int pos) {
+        return mp[pos.x, pos.y] != TileType.Enemy 
+            && mp[pos.x, pos.y] != TileType.Wall 
+            && mp[pos.x, pos.y] != TileType.Empty;
+    }
 }

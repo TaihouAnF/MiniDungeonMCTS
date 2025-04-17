@@ -31,7 +31,6 @@ public class LevelLoader : MonoBehaviour
                 Transform parent = gridRoot;
                 TileType type = TileType.Empty;
                 MapTile tile = Instantiate(tilePrefab, localPos, Quaternion.identity, parent); 
-                map[x, y] = tile;
 
                 switch (c)
                 {
@@ -44,6 +43,7 @@ public class LevelLoader : MonoBehaviour
                     case '.': type = TileType.Floor; break;
                 }
                 tile.SetSprite(tileSpriteSet.GetSprite(type));
+                map[x, y] = tile;
                 DungeonManager.Instance.SetTile(x, y, type);
             }
         }
@@ -56,8 +56,18 @@ public class LevelLoader : MonoBehaviour
         gridRoot.position = new Vector3(-width / 2f + 0.5f, -height / 2f + 0.5f);
     }
 
-    public void UpdateLevel(Actor actor) 
+    /// <summary>
+    /// Update the level by changing sprites only, it is not going to redraw entire grid
+    /// This should be called by a event, TODO make it trigger by event
+    /// </summary>
+    /// <param name="actor">The actor(player/enemy) which stores information about previou tile and curr tile</param>
+    public void UpdateLevel(Actor actor)  
     {
-
+        int x = actor.PrevPos.x;
+        int y = actor.PrevPos.y;
+        map[x, y].SetSprite(tileSpriteSet.GetSprite(actor.prevTileType));
+        int p_x = actor.CurPos.x;
+        int p_y = actor.CurPos.y;
+        map[p_x, p_y].SetSprite(tileSpriteSet.GetSprite(actor.actorType));
     }
 }
