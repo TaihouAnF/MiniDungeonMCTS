@@ -17,13 +17,6 @@ public class GridManager : MonoBehaviour
         LoadLevel(levelText.text);
     }
 
-    
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void LoadLevel(string level)
     {
         string[] lines = level.Split('\n');
