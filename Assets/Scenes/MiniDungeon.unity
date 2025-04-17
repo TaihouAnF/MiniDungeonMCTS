@@ -122,6 +122,23 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &406740615 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 573066730654153870, guid: efd4471a8ca176049971130d3c70a4aa, type: 3}
+  m_PrefabInstance: {fileID: 5780620713456392102}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &406740618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 406740615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11fb19006ffbbd642b2b2855fcf51cf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -261,6 +278,14 @@ PrefabInstance:
       propertyPath: gridRoot
       value: 
       objectReference: {fileID: 661404832}
+    - target: {fileID: 775195628601514443, guid: efd4471a8ca176049971130d3c70a4aa, type: 3}
+      propertyPath: tilePrefab
+      value: 
+      objectReference: {fileID: 198403821650202524, guid: d548f44ebb464384c9fcaa324814fc17, type: 3}
+    - target: {fileID: 775195628601514443, guid: efd4471a8ca176049971130d3c70a4aa, type: 3}
+      propertyPath: tileSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6abb6e2a2c55d554aba1fd40503fcb2f, type: 2}
     - target: {fileID: 6200516514565635563, guid: efd4471a8ca176049971130d3c70a4aa, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.1374965
@@ -304,7 +329,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 573066730654153870, guid: efd4471a8ca176049971130d3c70a4aa, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 406740618}
   m_SourcePrefab: {fileID: 100100000, guid: efd4471a8ca176049971130d3c70a4aa, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

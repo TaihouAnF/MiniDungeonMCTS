@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Tilemaps;
 public class LevelLoader : MonoBehaviour
 {
     public TextAsset levelText;
-    public GameObject wallPrefab, floorPrefab, playerPrefab, enemyPrefab, potionPrefab, chestPrefab, exitPrefab;
+    public MapTile tilePrefab;
     public Transform gridRoot;
+    public MapTile [,] map;
+    public TileSpriteSet tileSpriteSet;
 
     public Dictionary<Vector2Int, GameObject> grid = new Dictionary<Vector2Int,GameObject>();
     
@@ -21,30 +23,34 @@ public class LevelLoader : MonoBehaviour
     {
         string[] lines = level.Split('\n');
         int height = lines.Length;
-        int width = lines[0].Length;
+        int width = lines[^1].Length;   // index operator for getting the last
+
+        DungeonManager.Instance.InitMap(height, width);
+        map = new MapTile[height, width];
 
         for (int y = 0; y < height; ++y) {
             string line = lines[lines.Length - 1 - y];  // Inverted Y so top row == top line
-            for (int x = 0; x < line.Length; ++x) {
+            for (int x = 0; x < width; ++x) {
                 
                 char c = line[x];
                 Vector3 localPos = new(x, y, 0);
                 Transform parent = gridRoot;
+                TileType type = TileType.Empty;
+                MapTile tile = Instantiate(tilePrefab, localPos, Quaternion.identity, parent); 
+                map[x, y] = tile;
 
                 switch (c)
                 {
-                    case '#': 
-                        Instantiate(wallPrefab, localPos, Quaternion.identity, parent); 
-
-                        break;
-                    case '@': Instantiate(playerPrefab, localPos, Quaternion.identity, parent); break;
-                    case 'M': Instantiate(enemyPrefab, localPos, Quaternion.identity, parent); break;
-                    case 'P': Instantiate(potionPrefab, localPos, Quaternion.identity, parent); break;
-                    case 'E': Instantiate(exitPrefab, localPos, Quaternion.identity, parent); break;
-                    case 'C': Instantiate(chestPrefab, localPos,Quaternion.identity,parent); break;
-                    case '.': Instantiate(floorPrefab, localPos, Quaternion.identity, parent); break;
+                    case '#': type = TileType.Wall; break;
+                    case '@': type = TileType.Player; break;
+                    case 'M': type = TileType.Enemy; break;
+                    case 'P': type = TileType.Potion; break;
+                    case 'E': type = TileType.Exit; break;
+                    case 'C': type = TileType.Chest; break;
+                    case '.': type = TileType.Floor; break;
                 }
-
+                tile.SetSprite(tileSpriteSet.GetSprite(type));
+                DungeonManager.Instance.SetTile(x, y, type);
             }
         }
         // center the grid
