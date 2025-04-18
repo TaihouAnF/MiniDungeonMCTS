@@ -11,7 +11,7 @@ public class PlayerController : Actor
     // Update is called once per frame
     void Update()
     {
-        if (DungeonManager.Instance.curTurn != gameTurn.playerTurn) return;
+        if (DungeonManager.Instance.curTurn != gameTurn.playerTurn || DungeonManager.Instance.paused) return;
 
         // Debug.Log("Player Moving");
         Vector2Int dir = Vector2Int.zero;
@@ -68,6 +68,9 @@ public class PlayerController : Actor
             EventManager.TriggerLevelUpdate(this);
             PrevPos = CurPos;
             PrevTileType = nxtType;
+            DungeonManager.Instance.FinalHealth = Health;
+            DungeonManager.Instance.FinalScore = Score;
+            DungeonManager.Instance.FinalKilled = EnemyKilled;
             EventManager.TriggerLevelRestart(); // Currently restart the level
             return true;
         }

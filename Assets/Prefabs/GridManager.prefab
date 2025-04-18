@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6200516514565635563}
   - component: {fileID: 775195628601514443}
+  - component: {fileID: 1079836388364966019}
+  - component: {fileID: 4983458822570327901}
   m_Layer: 0
   m_Name: GridManager
   m_TagString: Untagged
@@ -44,14 +46,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fe8bcb09d4f7c745a3d27f357e19bca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 0
-  height: 0
   levelText: {fileID: 4900000, guid: 7101e2a17695aee4da1a9efede61fea1, type: 3}
-  wallPrefab: {fileID: 6116163878789383901, guid: c8496ae77f8651c49add996c58c8af3d, type: 3}
-  floorPrefab: {fileID: 3281288935928576511, guid: dae25ab3a6c2bcd498e82ad37e1e8d0b, type: 3}
-  playerPrefab: {fileID: 6478173803798687022, guid: 0af88b5847b842c4b9557b9642244aef, type: 3}
-  enemyPrefab: {fileID: 7104007647076078551, guid: 858dea2e9bad2c840910df5985e2df69, type: 3}
-  potionPrefab: {fileID: 3641923459756629230, guid: 12726be41de684f4eb2becf4777fb08a, type: 3}
-  chestPrefab: {fileID: 4905268629496288693, guid: d42ea6d954ca50c468be14f85d740d87, type: 3}
-  exitPrefab: {fileID: 1092600379675585993, guid: 0aaf8e7c7c9e54846841621a154355ee, type: 3}
+  tilePrefab: {fileID: 198403821650202524, guid: d548f44ebb464384c9fcaa324814fc17, type: 3}
   gridRoot: {fileID: 0}
+  tileSpriteSet: {fileID: 11400000, guid: 6abb6e2a2c55d554aba1fd40503fcb2f, type: 2}
+--- !u!114 &1079836388364966019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 573066730654153870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11fb19006ffbbd642b2b2855fcf51cf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  curTurn: 0
+  paused: 0
+  CoreCanvas: {fileID: 0}
+  FinalCanvas: {fileID: 0}
+  HealthText: {fileID: 0}
+  ScoreText: {fileID: 0}
+  EnemyKilledText: {fileID: 0}
+  FinalHealth: 100
+  FinalScore: 0
+  FinalKilled: 0
+--- !u!114 &4983458822570327901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 573066730654153870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636466572b713a0408bc4b5635cd12d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

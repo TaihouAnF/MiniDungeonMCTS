@@ -9,8 +9,8 @@ public class Actor : MonoBehaviour
     public Vector2Int CurPos;   // current location
     public TileType ActorType;  // The actor type, could be player/enemy
     public TileType PrevTileType;   // Stores the type of tile previously was
-    public float Health;        // Each actor has health
-    public void InitializeActor(Vector2Int pos, TileType aType, float startHealth) 
+    public int Health;        // Each actor has health
+    public void InitializeActor(Vector2Int pos, TileType aType, int startHealth) 
     {
         PrevPos = pos;
         CurPos = pos;

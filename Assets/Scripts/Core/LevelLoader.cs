@@ -15,6 +15,7 @@ public class LevelLoader : MonoBehaviour
     void Awake()
     {
         EventManager.OnPlayerMoved += UpdateLevel;
+        EventManager.OnLevelRestart += GameWin;
     }
 
     // Start is called before the first frame update
@@ -26,6 +27,7 @@ public class LevelLoader : MonoBehaviour
     void OnDestroy()
     {
         EventManager.OnPlayerMoved -= UpdateLevel;
+        EventManager.OnLevelRestart -= GameWin;
     }
     
     private void LoadLevel(string level)
@@ -89,5 +91,10 @@ public class LevelLoader : MonoBehaviour
         int p_x = actor.CurPos.x;
         int p_y = actor.CurPos.y;
         map[p_x, p_y].SetSprite(tileSpriteSet.GetSprite(actor.ActorType));
+    }
+
+    public void GameWin() 
+    {
+        gridRoot.gameObject.SetActive(false);
     }
 }
