@@ -10,9 +10,15 @@ public class EventManager : MonoBehaviour
     public static EventManager Instance { get; private set;}
 
     public static Action<Actor> OnPlayerMoved;
+    public static event Action OnLevelRestart;
 
     public static void TriggerLevelUpdate(Actor actor)
     {
         OnPlayerMoved?.Invoke(actor);
+    }
+
+    public static void TriggerLevelRestart() 
+    {
+        OnLevelRestart?.Invoke();
     }
 }

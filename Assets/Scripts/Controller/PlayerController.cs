@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class PlayerController : Actor
 {
@@ -55,6 +54,10 @@ public class PlayerController : Actor
             PrevPos = CurPos;
             prevTileType = nxtType;
             return true;
+        } 
+        else if (nxtType == TileType.Exit) 
+        {
+            EventManager.TriggerLevelRestart(); // Currently restart the level
         }
         return false;
     }

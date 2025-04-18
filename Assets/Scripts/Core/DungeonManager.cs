@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public enum gameTurn 
@@ -25,11 +26,13 @@ public class DungeonManager : MonoBehaviour // Could make a monosingleton here b
     {
         Instance = this;
         EventManager.OnPlayerMoved += ChangeTile;
+        EventManager.OnLevelRestart += RestartTheLevel;
     }
 
     void OnDestroy() 
     {
         EventManager.OnPlayerMoved -= ChangeTile;
+        EventManager.OnLevelRestart -= RestartTheLevel;
     }
 
     // Update is called once per frame
@@ -90,5 +93,10 @@ public class DungeonManager : MonoBehaviour // Could make a monosingleton here b
         mp[prev.x, prev.y] = preType;   // player might consume item
         Debug.Log($"Cur Pos: {mp[cur.x, cur.y]}");
         Debug.Log($"Prev Pos: {mp[prev.x, prev.y]}");
+    }
+
+    private void RestartTheLevel() 
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
