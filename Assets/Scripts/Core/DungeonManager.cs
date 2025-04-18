@@ -87,14 +87,15 @@ public class DungeonManager : MonoBehaviour // Could make a monosingleton here b
     {
         Vector2Int prev = actor.PrevPos;
         Vector2Int cur = actor.CurPos;
-        TileType preType = actor.prevTileType;
+        TileType preType = actor.PrevTileType;
 
-        mp[cur.x, cur.y] = actor.actorType;
+        mp[cur.x, cur.y] = actor.ActorType;
         mp[prev.x, prev.y] = preType;   // player might consume item
     }
 
     private void RestartTheLevel() 
     {
+        
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

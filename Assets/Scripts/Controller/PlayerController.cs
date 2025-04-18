@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerController : Actor
 {
     public int Score;
+    public int EnemyKilled;
 
     // Update is called once per frame
     void Update()
@@ -51,13 +52,19 @@ public class PlayerController : Actor
         {
             CurPos = pos;
             EventManager.TriggerLevelUpdate(this);
+
+
             PrevPos = CurPos;
-            prevTileType = nxtType;
+            PrevTileType = (nxtType == TileType.Potion || nxtType == TileType.Chest) ? TileType.Floor : nxtType;
+            Score += nxtType == TileType.Chest ? 10 : 0;
+            Health += nxtType == TileType.Potion ? 10 : 0;
             return true;
         } 
         else if (nxtType == TileType.Exit) 
         {
+            EventManager.TriggerLevelUpdate(this);
             EventManager.TriggerLevelRestart(); // Currently restart the level
+            return true;
         }
         return false;
     }

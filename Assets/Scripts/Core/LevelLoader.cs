@@ -85,9 +85,9 @@ public class LevelLoader : MonoBehaviour
     {
         int x = actor.PrevPos.x;
         int y = actor.PrevPos.y;
-        map[x, y].SetSprite(tileSpriteSet.GetSprite(actor.prevTileType));
+        map[x, y].SetSprite(tileSpriteSet.GetSprite(actor.PrevTileType));
         int p_x = actor.CurPos.x;
         int p_y = actor.CurPos.y;
-        map[p_x, p_y].SetSprite(tileSpriteSet.GetSprite(actor.actorType));
+        map[p_x, p_y].SetSprite(tileSpriteSet.GetSprite(actor.ActorType));
     }
 }
