@@ -91,8 +91,6 @@ public class DungeonManager : MonoBehaviour // Could make a monosingleton here b
 
         mp[cur.x, cur.y] = actor.actorType;
         mp[prev.x, prev.y] = preType;   // player might consume item
-        Debug.Log($"Cur Pos: {mp[cur.x, cur.y]}");
-        Debug.Log($"Prev Pos: {mp[prev.x, prev.y]}");
     }
 
     private void RestartTheLevel() 
