@@ -58,11 +58,16 @@ public class PlayerController : Actor
             PrevTileType = (nxtType == TileType.Potion || nxtType == TileType.Chest) ? TileType.Floor : nxtType;
             Score += nxtType == TileType.Chest ? 10 : 0;
             Health += nxtType == TileType.Potion ? 10 : 0;
+
+            EventManager.TriggerUIChanged();
             return true;
         } 
         else if (nxtType == TileType.Exit) 
         {
+            CurPos = pos;
             EventManager.TriggerLevelUpdate(this);
+            PrevPos = CurPos;
+            PrevTileType = nxtType;
             EventManager.TriggerLevelRestart(); // Currently restart the level
             return true;
         }

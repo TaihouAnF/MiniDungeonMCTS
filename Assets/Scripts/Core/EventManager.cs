@@ -11,6 +11,7 @@ public class EventManager : MonoBehaviour
 
     public static Action<Actor> OnPlayerMoved;
     public static event Action OnLevelRestart;
+    public static event Action OnUIChanged;
 
     public static void TriggerLevelUpdate(Actor actor)
     {
@@ -20,5 +21,10 @@ public class EventManager : MonoBehaviour
     public static void TriggerLevelRestart() 
     {
         OnLevelRestart?.Invoke();
+    }
+
+    public static void TriggerUIChanged() 
+    {
+        OnUIChanged?.Invoke();
     }
 }

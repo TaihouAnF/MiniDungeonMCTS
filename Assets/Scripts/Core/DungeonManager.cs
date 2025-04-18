@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,6 +20,10 @@ public class DungeonManager : MonoBehaviour // Could make a monosingleton here b
 
     public gameTurn curTurn;
 
+    public GameObject HealthText;
+    public GameObject ScoreText;
+    public GameObject EnemyKilledText;
+
     public int Width { get; private set; }
     public int Height { get; private set;}
 
@@ -27,12 +32,14 @@ public class DungeonManager : MonoBehaviour // Could make a monosingleton here b
         Instance = this;
         EventManager.OnPlayerMoved += ChangeTile;
         EventManager.OnLevelRestart += RestartTheLevel;
+        EventManager.OnUIChanged += ChangeUI;
     }
 
     void OnDestroy() 
     {
         EventManager.OnPlayerMoved -= ChangeTile;
         EventManager.OnLevelRestart -= RestartTheLevel;
+        EventManager.OnUIChanged -= ChangeUI;
     }
 
     // Update is called once per frame
@@ -79,7 +86,7 @@ public class DungeonManager : MonoBehaviour // Could make a monosingleton here b
 
     IEnumerator RunEnemyTurn() {
         // TODO Enemy behavior
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
         curTurn = gameTurn.playerTurn;
     }
 
@@ -97,5 +104,13 @@ public class DungeonManager : MonoBehaviour // Could make a monosingleton here b
     {
         
         // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private void ChangeUI() 
+    {
+        var player = FindObjectOfType<PlayerController>();
+        HealthText.GetComponent<TextMeshProUGUI>().text = "Health: " + player.Health;
+        ScoreText.GetComponent<TextMeshProUGUI>().text = "Score: " + player.Score;
+        EnemyKilledText.GetComponent<TextMeshProUGUI>().text = "Killed: " + player.EnemyKilled;
     }
 }
