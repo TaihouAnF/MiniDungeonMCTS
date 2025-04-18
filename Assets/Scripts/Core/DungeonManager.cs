@@ -2,10 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum gameTurn 
+{
+    playerTurn,
+    enemyTurn,
+}
+/// <summary>
+/// Act as a game manager
+/// </summary>
 public class DungeonManager : MonoBehaviour // Could make a monosingleton here but for the simplicity we are not going to make it
 {
     public static DungeonManager Instance { get; private set;}  
     public TileType[,] mp;
+
+    public gameTurn curTurn;
 
     public int Width { get; private set; }
     public int Height { get; private set;}
@@ -13,6 +24,12 @@ public class DungeonManager : MonoBehaviour // Could make a monosingleton here b
     void Awake()
     {
         Instance = this;
+        EventManager.OnPlayerMoved += ChangeTile;
+    }
+
+    void OnDestroy() 
+    {
+        EventManager.OnPlayerMoved -= ChangeTile;
     }
 
     // Update is called once per frame
@@ -26,6 +43,7 @@ public class DungeonManager : MonoBehaviour // Could make a monosingleton here b
         Width = width;
         Height = height;
         mp = new TileType[Width, Height];
+        curTurn = gameTurn.playerTurn;
     }
 
     public TileType GetTile(int x, int y) 
@@ -39,9 +57,38 @@ public class DungeonManager : MonoBehaviour // Could make a monosingleton here b
         mp[x, y] = tile;
     }
 
-    public bool isWalkable(Vector2Int pos) {
-        return mp[pos.x, pos.y] != TileType.Enemy 
-            && mp[pos.x, pos.y] != TileType.Wall 
+    public bool IsWalkable(Vector2Int pos) {
+        return mp[pos.x, pos.y] != TileType.Wall 
             && mp[pos.x, pos.y] != TileType.Empty;
+    }
+
+    public bool IsInBound(Vector2Int pos) {
+        return pos.x >= 0 && pos.y >= 0 
+            && pos.x < Width && pos.y < Height;
+    }
+
+    public void EndPlayerTurn() 
+    {
+        if (curTurn != gameTurn.playerTurn) return;
+        curTurn = gameTurn.enemyTurn;
+        StartCoroutine(RunEnemyTurn());
+    }
+
+    IEnumerator RunEnemyTurn() {
+        // TODO Enemy behavior
+        yield return new WaitForSeconds(0.5f);
+        curTurn = gameTurn.playerTurn;
+    }
+
+    private void ChangeTile(Actor actor) 
+    {
+        Vector2Int prev = actor.PrevPos;
+        Vector2Int cur = actor.CurPos;
+        TileType preType = actor.prevTileType;
+
+        mp[cur.x, cur.y] = actor.actorType;
+        mp[prev.x, prev.y] = preType;   // player might consume item
+        Debug.Log($"Cur Pos: {mp[cur.x, cur.y]}");
+        Debug.Log($"Prev Pos: {mp[prev.x, prev.y]}");
     }
 }

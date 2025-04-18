@@ -1,4 +1,9 @@
 using UnityEngine;
+
+/// <summary>
+/// Only Controls generating the map/level, and Update the sprite, 
+/// it won't control any other logics
+/// </summary>
 public class LevelLoader : MonoBehaviour
 {
     public TextAsset levelText;
@@ -6,13 +11,23 @@ public class LevelLoader : MonoBehaviour
     public Transform gridRoot;
     public MapTile [,] map;
     public TileSpriteSet tileSpriteSet;
-    
+
+    void Awake()
+    {
+        EventManager.OnPlayerMoved += UpdateLevel;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         LoadLevel(levelText.text);
     }
 
+    void OnDestroy()
+    {
+        EventManager.OnPlayerMoved -= UpdateLevel;
+    }
+    
     private void LoadLevel(string level)
     {
         string[] lines = level.Split('\n');
@@ -35,7 +50,12 @@ public class LevelLoader : MonoBehaviour
                 switch (c)
                 {
                     case '#': type = TileType.Wall; break;
-                    case '@': type = TileType.Player; break;
+                    case '@': 
+                        type = TileType.Player; 
+                        PlayerController pc = tile.gameObject.AddComponent<PlayerController>();
+                        Vector2Int pos = new(x, y);
+                        pc.InitializeActor(pos, type, 100);
+                        break;
                     case 'M': type = TileType.Enemy; break;
                     case 'P': type = TileType.Potion; break;
                     case 'E': type = TileType.Exit; break;
