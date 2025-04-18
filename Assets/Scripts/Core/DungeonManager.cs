@@ -96,6 +96,6 @@ public class DungeonManager : MonoBehaviour // Could make a monosingleton here b
     private void RestartTheLevel() 
     {
         
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
