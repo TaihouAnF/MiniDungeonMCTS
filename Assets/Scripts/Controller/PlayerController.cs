@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class PlayerController : Actor
 {
@@ -42,26 +44,20 @@ public class PlayerController : Actor
         if (!dm.IsWalkable(pos) || !dm.IsInBound(pos)) return false;
 
         TileType nxtType = dm.GetTile(pos.x, pos.y);
-        Debug.Log("Player Moving");
-        if (nxtType == TileType.Enemy) 
-        {
-            // Do Attack
-            return true;
-        }
-        else if (nxtType == TileType.Floor || nxtType == TileType.Potion || nxtType == TileType.Chest) 
+        if (nxtType != TileType.Empty && nxtType != TileType.Exit) 
         {
             CurPos = pos;
             EventManager.TriggerLevelUpdate(this);
 
-
             PrevPos = CurPos;
-            PrevTileType = (nxtType == TileType.Potion || nxtType == TileType.Chest) ? TileType.Floor : nxtType;
+            PrevTileType = (nxtType != TileType.Floor) ? TileType.Floor : nxtType;
             Score += nxtType == TileType.Chest ? 10 : 0;
             Health += nxtType == TileType.Potion ? 10 : 0;
-
+            EnemyKilled += nxtType == TileType.Enemy ? 1 : 0;
+            Health -= nxtType == TileType.Enemy ? 10 : 0;
             EventManager.TriggerUIChanged();
             return true;
-        } 
+        }
         else if (nxtType == TileType.Exit) 
         {
             CurPos = pos;
