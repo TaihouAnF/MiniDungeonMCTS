@@ -37,7 +37,13 @@ public class DungeonManager : MonoBehaviour // Could make a monosingleton here b
 
     void Awake()
     {
-        Instance = this;
+        if (Instance == null) {
+            Instance = this;
+        }
+        else 
+        {
+            Destroy(gameObject);
+        }
         EventManager.OnPlayerMoved += ChangeTile;
         EventManager.OnLevelRestart += GameWin;
         EventManager.OnUIChanged += ChangeUI;
@@ -136,5 +142,11 @@ public class DungeonManager : MonoBehaviour // Could make a monosingleton here b
     public void ResetLevel() 
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void ClearMap() {
+        HealthText.GetComponent<TextMeshProUGUI>().text = "Health: 100";
+        ScoreText.GetComponent<TextMeshProUGUI>().text = "Score: 0";
+        EnemyKilledText.GetComponent<TextMeshProUGUI>().text = "Killed: 0";
     }
 }

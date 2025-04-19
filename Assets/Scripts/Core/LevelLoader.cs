@@ -6,7 +6,8 @@ using UnityEngine;
 /// </summary>
 public class LevelLoader : MonoBehaviour
 {
-    public TextAsset levelText;
+    public static LevelLoader Instance { get; private set;}
+    public TextAsset levelText; // Debug purpose, deprecrated
     public MapTile tilePrefab;
     public Transform gridRoot;
     public MapTile [,] map;
@@ -14,6 +15,14 @@ public class LevelLoader : MonoBehaviour
 
     void Awake()
     {
+        if (Instance == null) {
+            Instance = this;
+        }
+        else 
+        {
+            Destroy(gameObject);
+        }
+
         EventManager.OnPlayerMoved += UpdateLevel;
         EventManager.OnLevelRestart += GameWin;
     }
@@ -21,7 +30,8 @@ public class LevelLoader : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        LoadLevel(levelText.text);
+        // LoadLevel(levelText.text);
+        // LoadAssetfromPath("Level");
     }
 
     void OnDestroy()
@@ -30,7 +40,7 @@ public class LevelLoader : MonoBehaviour
         EventManager.OnLevelRestart -= GameWin;
     }
     
-    private void LoadLevel(string level)
+    public void LoadLevel(string level)
     {
         string[] lines = level.Split('\n');
         int height = lines.Length;
@@ -75,6 +85,7 @@ public class LevelLoader : MonoBehaviour
 
     private void CenterDungeon(int width, int height)
     {
+        Debug.Log("Called");
         gridRoot.position = new Vector3(-width / 2f + 0.5f, -height / 2f + 0.5f);
     }
 
@@ -96,5 +107,43 @@ public class LevelLoader : MonoBehaviour
     public void GameWin() 
     {
         gridRoot.gameObject.SetActive(false);
+    }
+    
+    /// <summary>
+    /// Loads level file from path "Resources/Levels/<filename>.txt". 
+    /// Only need to place the file in the level folder and input its name
+    /// </summary>
+    /// <param name="filename">The name of txt</param>
+    public static void LoadAssetfromPath(string filename)
+    {
+        string name = "Levels/" + filename;
+        TextAsset level = Resources.Load<TextAsset>(name);
+        Instance.LoadLevel(level.text);
+    }
+
+    public void ClearMap() 
+    {
+        if (map == null || map.Length == 0) return;
+        for (int i = 0; i < map.GetLength(0); ++i) 
+        {
+            for (int j = 0; j < map.GetLength(1); ++j) 
+            {
+                GameObject.Destroy(map[i, j].gameObject);
+                map[i, j] = null;
+            }
+        }
+    }
+
+    public void LoadFirst() 
+    {
+        DungeonManager.Instance.ClearMap();
+        ClearMap();
+        LoadAssetfromPath("Level");
+    }
+    public void LoadAnother() 
+    {
+        DungeonManager.Instance.ClearMap();
+        ClearMap();
+        LoadAssetfromPath("Level2");
     }
 }
