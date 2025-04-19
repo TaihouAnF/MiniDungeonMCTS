@@ -108,6 +108,8 @@ public class LevelLoader : MonoBehaviour
     /// <summary>
     /// Loads level file from path "Resources/Levels/<filename>.txt". 
     /// Only need to place the file in the level folder and input its name
+    /// WARNING: this loads the level with clearing the old one, please consider using 
+    /// LoadNextLevel(string name) if you want complete loading
     /// </summary>
     /// <param name="filename">The name of txt</param>
     public static void LoadAssetfromPath(string filename)
@@ -137,13 +139,22 @@ public class LevelLoader : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Wraps the entire loading process and load the level
+    /// </summary>
+    /// <param name="name">The level name</param>
+    public void LoadNextLevel(string name) 
+    {
+        DungeonManager.Instance.ClearMap();
+        ClearMap();
+        LoadAssetfromPath(name);
+    }
+
     public void LoadLevelFromInput()
     {
         string name = inputField.text.Trim();
         if (string.IsNullOrEmpty(name)) return;
 
-        DungeonManager.Instance.ClearMap();
-        ClearMap();
-        LoadAssetfromPath(name);
+        LoadNextLevel(name);
     }
 }
