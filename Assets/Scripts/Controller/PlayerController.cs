@@ -15,8 +15,11 @@ public class PlayerController : Actor
     {
         if (DungeonManager.Instance.curTurn != gameTurn.playerTurn || DungeonManager.Instance.paused) return;
 
-        // Debug.Log("Player Moving");
         Vector2Int dir = Vector2Int.zero;
+
+        // Moving, currently player controls direction itself. 
+        // The player can move horizontally or vertically
+        // MCTS might control the direction only and ignore how to move
         if (Input.GetKeyDown(KeyCode.W)) dir = Vector2Int.up;
         else if (Input.GetKeyDown(KeyCode.A)) dir = Vector2Int.left;
         else if (Input.GetKeyDown(KeyCode.S)) dir = Vector2Int.down;

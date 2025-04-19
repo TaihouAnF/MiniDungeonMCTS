@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 /// <summary>
@@ -8,6 +9,8 @@ public class LevelLoader : MonoBehaviour
 {
     public static LevelLoader Instance { get; private set;}
     public TextAsset levelText; // Debug purpose, deprecrated
+
+    public TMP_InputField inputField;
     public MapTile tilePrefab;
     public Transform gridRoot;
     public MapTile [,] map;
@@ -25,13 +28,6 @@ public class LevelLoader : MonoBehaviour
 
         EventManager.OnPlayerMoved += UpdateLevel;
         EventManager.OnLevelRestart += GameWin;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        // LoadLevel(levelText.text);
-        // LoadAssetfromPath("Level");
     }
 
     void OnDestroy()
@@ -118,11 +114,18 @@ public class LevelLoader : MonoBehaviour
     {
         string name = "Levels/" + filename;
         TextAsset level = Resources.Load<TextAsset>(name);
+
+        if (level == null) 
+        {
+            Debug.LogError($"Level '{level}' not found in Resources/Levels/");
+            return;
+        }
         Instance.LoadLevel(level.text);
     }
 
     public void ClearMap() 
     {
+        gridRoot.transform.position = new Vector3(0, 0, 0);
         if (map == null || map.Length == 0) return;
         for (int i = 0; i < map.GetLength(0); ++i) 
         {
@@ -134,16 +137,13 @@ public class LevelLoader : MonoBehaviour
         }
     }
 
-    public void LoadFirst() 
+    public void LoadLevelFromInput()
     {
+        string name = inputField.text.Trim();
+        if (string.IsNullOrEmpty(name)) return;
+
         DungeonManager.Instance.ClearMap();
         ClearMap();
-        LoadAssetfromPath("Level");
-    }
-    public void LoadAnother() 
-    {
-        DungeonManager.Instance.ClearMap();
-        ClearMap();
-        LoadAssetfromPath("Level2");
+        LoadAssetfromPath(name);
     }
 }
