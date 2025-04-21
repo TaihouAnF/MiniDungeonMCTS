@@ -25,7 +25,7 @@ public class Actor : MonoBehaviour
         
     }
 
-    protected virtual bool TryMove(Vector2Int pos) 
+    public virtual bool TryMove(Vector2Int pos) 
     {
         // should implement their own
         return false;

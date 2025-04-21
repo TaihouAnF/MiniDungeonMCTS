@@ -36,7 +36,7 @@ public class PlayerController : Actor
     /// </summary>
     /// <param name="pos">the new position, AKA target pos</param>
     /// <returns>True if the move is done, False otherwise</returns>
-    protected override bool TryMove(Vector2Int pos) {
+    public override bool TryMove(Vector2Int pos) {
         var dm = DungeonManager.Instance;
         // Extra guarding, forgive my illness
         if (dm.curTurn != gameTurn.playerTurn) return false;
