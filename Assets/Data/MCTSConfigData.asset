@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: MCTSConfigData
   m_EditorClassIdentifier: 
   PlayerDieScore: -100
-  PlayerEscapeScore: 100
-  PlayerMoveScore: -1
-  PlayerGoBackScore: -10
+  PlayerEscapeScore: 5000
+  PlayerMoveScore: 0
+  PlayerGoBackScore: 0
   KillEnemyScore: 100
   PotionScore: 100
   OpenChestScore: 200

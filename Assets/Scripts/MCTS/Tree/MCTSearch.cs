@@ -26,6 +26,7 @@ public class MCTSearch
             {
                 MCTSNode v = TreePolicy();
                 float reward = v.RollOut();
+
                 v.BackPropagate(reward);
                 if(Time.timeSinceLevelLoad > EndTime)
                 {
