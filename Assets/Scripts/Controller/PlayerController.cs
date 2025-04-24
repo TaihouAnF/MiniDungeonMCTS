@@ -7,8 +7,15 @@ using UnityEngine;
 
 public class PlayerController : Actor
 {
+    public static PlayerController Instance;
+
     public int Score;
     public int EnemyKilled;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     // Update is called once per frame
     void Update()
@@ -39,7 +46,7 @@ public class PlayerController : Actor
     /// </summary>
     /// <param name="pos">the new position, AKA target pos</param>
     /// <returns>True if the move is done, False otherwise</returns>
-    protected override bool TryMove(Vector2Int pos) {
+    public override bool TryMove(Vector2Int pos) {
         var dm = DungeonManager.Instance;
         // Extra guarding, forgive my illness
         if (dm.curTurn != gameTurn.playerTurn) return false;
