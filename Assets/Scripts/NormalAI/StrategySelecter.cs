@@ -222,6 +222,10 @@ public class StrategySelecter : MonoBehaviour
                 newRequired.Remove(rPos);
 
                 rPosSolution = FindSolution(rPos, newRequired, avoid, final);
+                if(rPosSolution == null)
+                {
+                    return null;
+                }
 
                 path.AddRange(rPosSolution.Path);
                 rPosSolution.Path = path;
