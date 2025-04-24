@@ -15,6 +15,7 @@ public class MCTSManager : MonoBehaviour
     private DungeonManager m_DungeonManager;
     private MiniDungeonGameState m_GameState;
     private bool m_IsGameStart;
+    private MCTSNode m_bestFirstNode;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,16 +33,41 @@ public class MCTSManager : MonoBehaviour
                 return;
             }
             MoveCounter = MoveCD;
-            MCTSNode root = new MCTSNode(m_GameState);
-            MCTSearch mcts = new MCTSearch(root);
-            MCTSNode bestNode = mcts.BestAction(100);
 
-            m_GameState = bestNode.GameState;
+            if (m_bestFirstNode == null) return;
+            /*            foreach (var item in root.Children)
+                        {
+                            int children = 0;
+                            Queue<MCTSNode> queue = new Queue<MCTSNode>();
+                            queue.Enqueue(item);
+                            while(queue.Count>0)
+                            {
+                                MCTSNode curnode = queue.Dequeue();
+                                children++;
+                                foreach (var child in curnode.Children)
+                                {
+                                    queue.Enqueue(child);
+                                }
+                            }
+                            Debug.Log(children);
+                        }*/
+
+            foreach (var item in m_bestFirstNode.Children)
+            {
+                Debug.LogFormat("Pos:{0}, Score:{1}", item.GameState.m_PlayerStatus.m_PlayerCurPos, item.Result);
+            }
+
+
+            m_GameState = m_bestFirstNode.GameState;
             m_PlayerController.TryMove(m_GameState.m_PlayerStatus.m_PlayerCurPos);
 
             if (m_GameState.IsGameOver())
             {
                 m_IsGameStart = false;
+            }
+            else
+            {
+                m_bestFirstNode = m_bestFirstNode.BestChild();
             }
         }
     }
@@ -73,5 +99,9 @@ public class MCTSManager : MonoBehaviour
         };
         m_GameState = new MiniDungeonGameState(m_DungeonManager.mp, WinPos, playerStatus, m_DungeonManager, Config);
         m_IsGameStart = true;
+
+        MCTSNode root = new MCTSNode(m_GameState);
+        MCTSearch mcts = new MCTSearch(root);
+        m_bestFirstNode = mcts.BestAction(30000);
     }
 }

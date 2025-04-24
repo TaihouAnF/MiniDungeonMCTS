@@ -39,6 +39,7 @@ public class MCTSearch
             for(int i = 0;i < simulationNumber; i++)
             {
                 MCTSNode v = TreePolicy();
+                if (v == null) return null;
                 float reward = v.RollOut();
                 v.BackPropagate(reward);
             }
@@ -49,7 +50,7 @@ public class MCTSearch
     public MCTSNode TreePolicy()
     {
         MCTSNode currentNode = Root;
-        while (!currentNode.IsTerminalNode())
+        while (currentNode != null && !currentNode.IsTerminalNode() )
         {
             if (!currentNode.IsFullyExpand())
             {

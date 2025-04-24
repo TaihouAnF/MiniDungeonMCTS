@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f27a31ab2854a4489a073a372b1034c, type: 3}
   m_Name: MCTSConfigData
   m_EditorClassIdentifier: 
-  PlayerDieScore: -100
-  PlayerEscapeScore: 5000
-  PlayerMoveScore: 0
+  PlayerDieScore: 0
+  PlayerEscapeScore: 2
+  PlayerMoveScore: -0.002
   PlayerGoBackScore: 0
-  KillEnemyScore: 100
-  PotionScore: 100
-  OpenChestScore: 200
+  KillEnemyScore: 2
+  PotionScore: 4
+  OpenChestScore: 2
   EnemyDamage: 10
   PotionHeal: 10
+  BaseCloseToTarget: 0

@@ -8,8 +8,8 @@ public class MCTSNode
     public MCTSNode Parent;
     public MiniDungeonGameState GameState;
     public List<MCTSNode> Children;
+    public float Result;
 
-    private float m_Result;
     private int m_NumberOfVisits;
     private Queue<MoveAction> m_UntriedActions;
 
@@ -36,7 +36,7 @@ public class MCTSNode
 
     public float GetQ()
     {
-        return m_Result;
+        return Result;
     }
 
     public int GetN()
@@ -58,13 +58,14 @@ public class MCTSNode
         return GameState.IsGameOver();
     }
 
-    public int RollOut()
+    public float RollOut()
     {
         MiniDungeonGameState currentRolloutState = new MiniDungeonGameState(GameState);
         while(!currentRolloutState.IsGameOver())
         {
             List<MoveAction> possibleMoves = currentRolloutState.GetLegalActions();
             MoveAction action = RollOutPolicy(possibleMoves);
+            if (action == null) return currentRolloutState.GameResult();
             currentRolloutState = currentRolloutState.Move(action);
         }
         return currentRolloutState.GameResult();
@@ -73,7 +74,7 @@ public class MCTSNode
     public void BackPropagate(float result)
     {
         m_NumberOfVisits += 1;
-        m_Result += result;
+        Result += result;
         if(Parent != null)
         {
             Parent.BackPropagate(result);
@@ -85,7 +86,7 @@ public class MCTSNode
         return UntriedActions().Count == 0;
     }
 
-    public MCTSNode BestChild(float cParam=1.2f)
+    public MCTSNode BestChild(float cParam=1.4f)
     {
         int bestIndex = -1;
         float bestWeight = float.MinValue;
@@ -101,6 +102,7 @@ public class MCTSNode
                 bestWeight = nodeWeight;
             }
         }
+        if (Children.Count == 0) return null;
         return Children[bestIndex];
     }
 

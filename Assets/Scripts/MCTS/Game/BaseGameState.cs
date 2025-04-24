@@ -6,7 +6,7 @@ using UnityEngine;
 
 public abstract class BaseGameState
 {
-    public abstract int GameResult();
+    public abstract float GameResult();
     public abstract bool IsGameOver();
     public abstract List<MoveAction> GetLegalActions();
 
