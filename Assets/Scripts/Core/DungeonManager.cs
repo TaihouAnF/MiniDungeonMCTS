@@ -37,7 +37,13 @@ public class DungeonManager : MonoBehaviour // Could make a monosingleton here b
 
     void Awake()
     {
-        Instance = this;
+        if (Instance == null) {
+            Instance = this;
+        }
+        else 
+        {
+            Destroy(gameObject);
+        }
         EventManager.OnPlayerMoved += ChangeTile;
         EventManager.OnLevelRestart += GameWin;
         EventManager.OnUIChanged += ChangeUI;
@@ -117,12 +123,10 @@ public class DungeonManager : MonoBehaviour // Could make a monosingleton here b
         var HealthTxt = FinalCanvas.transform.Find("HealthTxt").GetComponent<TextMeshProUGUI>();
         var ScoreTxt = FinalCanvas.transform.Find("ScoreTxt").GetComponent<TextMeshProUGUI>();
         var EnemyTxt = FinalCanvas.transform.Find("EnemyTxt").GetComponent<TextMeshProUGUI>();
-        // Debug.Log($"{player.Health}");
         HealthTxt.text = "Health: " + FinalHealth;
         ScoreTxt.text = "Score: " + FinalScore;
         EnemyTxt.text = "Killed: " + FinalKilled;
         paused = true;
-        // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void ChangeUI() 
@@ -136,5 +140,27 @@ public class DungeonManager : MonoBehaviour // Could make a monosingleton here b
     public void ResetLevel() 
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void ClearMap() {
+        HealthText.GetComponent<TextMeshProUGUI>().text = "Health: 100";
+        ScoreText.GetComponent<TextMeshProUGUI>().text = "Score: 0";
+        EnemyKilledText.GetComponent<TextMeshProUGUI>().text = "Killed: 0";
+    }
+
+    /// <summary>
+    /// Debug purpose
+    /// </summary>
+    public void PrintMap()
+    {
+        for (int y = mp.GetLength(1) - 1; y >= 0; y--)
+        {
+            string row = "";
+            for (int x = 0; x < mp.GetLength(0); x++)
+            {
+                row += mp[x, y].ToString() + " ";
+            }
+            Debug.Log(row);
+        }
     }
 }
